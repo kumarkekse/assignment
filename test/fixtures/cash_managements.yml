@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  initial_cash: 1
+  cash_out: 1
+  cash_in: 1
+
+two:
+  initial_cash: 1
+  cash_out: 1
+  cash_in: 1

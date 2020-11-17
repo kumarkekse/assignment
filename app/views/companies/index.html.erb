@@ -1,0 +1,68 @@
+<table style="width:70%">
+  <tr>
+    <th>Company Name</th>
+    <th>Country</th>
+    <th>Currency</th>
+ </tr>
+<% @companies.each do |company| %> 
+ <tr>
+  <td><%= company.name %></td>
+  <td><%= company.country %></td>
+  <td><%= company.currency %></td>
+  <td><button class="btn btn-success btn-xs pop_up" data-toggle="modal" data-target="#approvalModal" company_id="<%=company.id%>">
+    Cash Management Table
+  </button></td>
+ </tr>
+ <tr style="display:none" class="cash_management">
+    <% cash_management = company&.cash_management %>
+      <% if cash_management.present? %>
+        <td><%= cash_management.initial_cash %></td>
+        <td><%= cash_management.cash_out %></td>
+        <td><%= cash_management.cash_in %></td>
+      <%end%>
+  </tr>
+<% end %>
+</table>
+<%= link_to 'Back', home_index_path %>
+
+
+<div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      </div>
+      <div class="modal-body">
+        <table style="width:70%">
+          <tr>
+            <th>Initial Cash</th>
+            <th>Cash Out</th>
+            <th>Cash In</th>
+         </tr>
+         <tr>
+          <td><%= @cash_management&.initial_cash %></td>
+          <td><%= @cash_management&.cash_out %></td>
+          <td><%= @cash_management&.cash_in %></td>
+         </tr>
+       </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.pop_up').click(function(){
+    $.ajax({
+      url: "/index",
+      method: "get",
+      data: {company_id: this.attributes.company_id.value },
+      success: function(data, response){
+        debugger
+        $("html").find('#approvalModal table').replaceWith($(data).filter("#approvalModal").find('table'))
+      }
+    })
+  });
+</script>

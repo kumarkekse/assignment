@@ -1,0 +1,41 @@
+<h1>Company Details</h1>
+ Company Name: <%= @company.name %></br>
+ Country: <%= @company.country %></br>
+ Currency: <%= @company.currency %></br>
+<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#approvalModal">
+    Cash Management
+  </button></br>
+<%= link_to 'Back', home_index_path %>
+
+<div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      </div>
+      <div class="modal-body">
+        <%= form_for(CashManagement.new, as: :cash_management, url: "/cash_management") do |f| %>
+	        <div class="field">
+				    <%= f.label :initial_cash %><br />
+				    <%= f.text_field :initial_cash %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :cash_out %><br />
+				    <%= f.text_field :cash_out %>
+				  </div>
+				  <div class="field">
+				    <%= f.label :cash_in %><br />
+				    <%= f.text_field :cash_in %>
+				  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+           <div class="actions btn">
+           	<%= f.hidden_field :company_id, value: @company.id %>
+	    			<%= f.submit "Save Data" %>
+	  			 </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

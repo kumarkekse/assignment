@@ -1,0 +1,36 @@
+<% if user_signed_in? %>
+<%if current_user.user_type.eql?("Student") %>
+	<%= form_for(Company.new, as: :company, url: "/companies") do |f| %>
+		<div class="field">
+	    <%= f.label :Company_name %><br />
+	    <%= f.text_field :name %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :country %><br />
+	    <%= f.select :country, ISO3166::Country.all_translated %>
+	  </div>
+
+	  <div class="field">
+	    <%= f.label :currency %><br />
+	    <%= f.select :currency, Money::Currency.table %>
+	  </div>
+
+	  <div class="actions">
+	  	<%= f.hidden_field :user_id, value: current_user.id %>
+	    <%= f.submit "Create Company" %>
+	  </div>
+	<%end%>
+	<%= link_to 'User Company Lists', companies_path %></br>
+<%end%>
+  <li>
+  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
+  </li>
+<% else %>
+  <li>
+  <%= link_to('Login', new_user_session_path) %>
+  </li>
+  <li>
+  	<%= link_to('Register', new_user_registration_path) %>
+  </li>
+<% end %>
